@@ -27,6 +27,24 @@
             <div class="col-lg-3"> 
             <h5>Filter product</h5>
             <hr>
+
+            <form action="" method="POST">
+
+            <div class="col-md-4">
+                <label for="">Prix Mini</label>
+                <input type="text" name="prix_mini" value="<?php if(isset($_POST['prix_mini'])){echo $_POST['prix_mini']; }else{echo"300";} ?>" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="">Prix Max</label>
+                <input type="text" name="prix_max" value="<?php if(isset($_POST['prix_max'])){echo $_POST['prix_max']; }else{echo"71000";} ?>" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="">Click</label>
+                <button type="submit" class="btn btn-primary px-4">Filtre</button>
+            </div>
+            </form>
+            
+
             <h6 class="text-info">Select Vehicule</h6>
             <ul class="list-group">
                 <?php 
@@ -66,7 +84,13 @@
                 <hr>
                 <div class="row" id="result">
                 <?php   
-                    $sql="SELECT * FROM vehicule,energie WHERE vehicule.typeEnergie = energie.codeEnergie";
+                    if(isset($_POST['prix_mini'])&& isset($_POST['prix_max']))
+                    {
+                        $petitprix=$_POST['prix_mini'];
+                        $grandprix=$_POST['prix_max'];
+                    }
+
+                    $sql="SELECT * FROM vehicule,energie WHERE vehicule.typeEnergie = energie.codeEnergie AND prixvente BETWEEN $petitprix AND $grandprix";
                     $result=$conn->query($sql);
                     while($row=$result->FETCH_ASSOC()){
                 ?> 
