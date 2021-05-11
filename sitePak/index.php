@@ -19,13 +19,18 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css" >
+
 </head>
 <body>
-    <h3 class="text-center text-light bg-info p-2">LA KIFFANCE</h3>
+    <div class="text-center text-light bg-info p-2">
+        <h3 >Le Concessionaire</H3>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3"> 
-            <h5>Filter product</h5>
+            <h5>Produit Filtrer</h5>
             <hr>
 
             <form action="" method="POST">
@@ -45,7 +50,7 @@
             </form>
             
 
-            <h6 class="text-info">Select Vehicule</h6>
+            <h6 class="text-info">Selection du Vehicule</h6>
             <ul class="list-group">
                 <?php 
                     $sql="SELECT DISTINCT marque FROM vehicule";
@@ -62,7 +67,7 @@
                 <?php } ?>
             </ul>
 
-            <h6 class="text-info">Select energie</h6>
+            <h6 class="text-info">Selection de energie</h6>
             <ul class="list-group">
                 <?php 
                     $sql="SELECT DISTINCT codeEnergie, libelleEnergie FROM vehicule,energie WHERE vehicule.typeEnergie = energie.codeEnergie";
@@ -78,7 +83,10 @@
                 </li>
                 <?php } ?>
             </ul>
+            <a class="btn btn-primary" href="formulaire.php" role="button">Suggestion ?</a>
+
             </div>
+
             <div class="col-lg-9">
                 <h5 class="text-center" id="textChange"> TOUS LES PRODUITS</h5>
                 <hr>
@@ -152,5 +160,6 @@
 
     });
     </script>
+
 </body>
 </html>
