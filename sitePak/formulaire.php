@@ -17,6 +17,7 @@
                 Merci de prendre de votre temps pour notre platforme
             </p>
         </header>
+        <!-- formulaire basique-->
         <form action="" method="POST">
             <div class="form-group">
                 <label  for="nom">Nom</label>
@@ -70,7 +71,7 @@
 
     <?php
 
-
+// connexion avec une nouvelle technique (pdo) pour varier les plaisirs.
 try{
     $db = new PDO('mysql:host=127.0.0.1;dbname=GARAGE;charset=utf8mb4', 'sandro', 'root');
   }
@@ -78,9 +79,9 @@ try{
     print "HOLALALA L'Erreurrr :" . $e->getMessage() . "<br/>";
     die;
   }
-
+// on ajoute a la bdd nos infos recueilli.
 $statement = $db->prepare("INSERT INTO messages(nom, adresse, cp, ville, mail, telephone, message, avis) VALUES (:nom, :adresse, :cp, :ville, :mail, :telephone, :message, :avis)");
-
+//information recueilli 
 $statement->execute([
   "nom" => $_POST['nom'],
   "adresse" => $_POST['adresse'],
