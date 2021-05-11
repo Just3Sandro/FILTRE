@@ -99,7 +99,7 @@
                 <h5 class="text-center" id="textChange"> TOUS LES PRODUITS</h5>
                 <hr>
                 <div class="row" id="result">
-                <!-- vérifie que les prix soit bien et on les déclare dans une variable
+                <!-- vérifie que les prix soit bien et on les déclare dans une variable -->
                 <?php   
                     if(isset($_POST['prix_mini'])&& isset($_POST['prix_max']))
                     {
