@@ -1,4 +1,4 @@
-<img src="/images/blog/1.webp" width="800" height="600" />
+<img src="/images/blog/1.webp" width="800" />
 
 ## 🧠 Introduction
 
@@ -23,7 +23,7 @@ J’ai tout appris en autodidacte et je suis heureux d’intégrer l’école 26
 Après une rapide inscription au challenge, nous arrivons sur une page qui nous explique le contexte et propose de télécharger les **logs réseaux d’un véhicule** avec lequel la communication a été perdue.
 
 Je télécharge les logs sur ma VM Kali et j’ouvre le fichier avec [**Wireshark**](https://www.varonis.com/fr/blog/comment-utiliser-wireshark).  
-<img src="/images/blog/2.webp" width="800" height="600" />
+<img src="/images/blog/2.webp" width="800"  />
 
 ---
 
@@ -32,10 +32,10 @@ Je télécharge les logs sur ma VM Kali et j’ouvre le fichier avec [**Wireshar
 Après une analyse rapide, je détecte l’endroit où la connexion a été coupée, grâce aux lignes rouges et jaunes. On remarque aussi que la communication utilise le protocole **TELNET**, qui n’est pas sécurisé. Il serait préférable d’utiliser **TLS** ou **SSL** pour garantir la confidentialité des échanges. 👨‍🏫
 
 Je fais un clic droit sur un paquet TCP, puis **Follow > TCP Stream**, ce qui permet de suivre et reconstruire l’ensemble de la communication.  
-<img src="/images/blog/3.webp" width="800" height="600" />
+<img src="/images/blog/3.webp" width="800"  />
 
 On y trouve des identifiants que je mets de côté pour la suite :  
-<img src="/images/blog/4.webp" width="800" height="600" />
+<img src="/images/blog/4.webp" width="800"  />
 
 ---
 
@@ -44,20 +44,20 @@ On y trouve des identifiants que je mets de côté pour la suite :
 Un peu plus bas, deux lignes de commande semblent être encodées en **Base64**. Je les passe dans un [décodeur Base64](https://www.base64encode.org/fr/). La **seconde ligne ne donne rien**, mais la première révèle notre **premier flag** :
 
 > `RM{7aff2a607b13f73cb0936f96e67b210207ae0475}` 😀  
-<img src="/images/blog/5.webp" width="800" height="600" />
+<img src="/images/blog/5.webp" width="800"  />
 
 ---
 
 ### 📲 Analyse UDP et 2e Flag
 
 Ne trouvant rien d’autre, je refais un **Follow** sur les paquets **UDP** au moment où la connexion a été perdue :  
-<img src="/images/blog/6.webp" width="800" height="600" />
+<img src="/images/blog/6.webp" width="800"  />
 
 Je repère une **adresse IP** et exécute une commande `curl` dessus. Je reçois du HTML avec une redirection vers `/login`.  
-<img src="/images/blog/7.webp" width="800" height="600" />
+<img src="/images/blog/7.webp" width="800"  />
 
 Je me rends sur cette page depuis mon navigateur :  
-<img src="/images/blog/8.webp" width="800" height="600" />
+<img src="/images/blog/8.webp" width="800"  />
 
 Je tente les identifiants récupérés précédemment → **échec**. J’essaie ensuite une injection SQL classique avec :
 
@@ -71,7 +71,7 @@ Coup de chance 🥳, ça fonctionne !
 > [hacksplaining.com](https://www.hacksplaining.com/lessons)
 
 Je suis redirigé vers une page m’invitant à télécharger les **derniers logs du véhicule**.  
-<img src="/images/blog/9.webp" width="800" height="600" />
+<img src="/images/blog/9.webp" width="800"  />
 
 ---
 
@@ -81,10 +81,10 @@ Dans ces logs, je trouve :
 
 - Un second **flag** encodé en **hexadécimal**  
 - Une **commande suspecte** indiquant qu’un fichier est caché dans le `favicon.ico`  
-<img src="/images/blog/10.webp" width="800" height="600" />
+<img src="/images/blog/10.webp" width="800"  />
 
 Je vais dans l’onglet Réseau du navigateur et télécharge le `favicon.ico`.  
-<img src="/images/blog/11.webp" width="800" height="600" />
+<img src="/images/blog/11.webp" width="800"  />
 
 La commande `ls -lh` montre que le fichier pèse **25 Ko**, ce qui est beaucoup. Il doit y avoir un fichier caché.
 
@@ -102,7 +102,7 @@ xxd favicon.ico | less
 ```
 
 Je repère l’en-tête ZIP (504B0304) et la fin (504B0506) :
-<img src="/images/blog/12.webp" width="800" height="600" />
+<img src="/images/blog/12.webp" width="800"  />
 
 Offsets :
 
@@ -121,7 +121,7 @@ Un fichier .zip est extrait… mais il est protégé par mot de passe 😐
 ### 🔐 Crack du mot de passe et 3e Flag
 
 Dans les logs, je trouve un fichier `.password` contenant une chaîne non-Base64. En le testant comme mot de passe, **le zip s’ouvre**.  
-<img src="/images/blog/13.webp" width="800" height="600" />
+<img src="/images/blog/13.webp" width="800"  />
 
 Le `.zip` contient :
 
@@ -144,10 +144,10 @@ break *main+165
 run
 ```
 
-<img src="/images/blog/14.webp" width="800" height="600" />
+<img src="/images/blog/14.webp" width="800"  />
 Je mets un point d’arrêt, exécute, puis observe les registres.
 Avec l’analyse de la pile, je trouve le premier input → 3e flag validé ! 🎉
-<img src="/images/blog/15.webp" width="800" height="600" />
+<img src="/images/blog/15.webp" width="800"  />
 
 Mais il reste un second input…
 
