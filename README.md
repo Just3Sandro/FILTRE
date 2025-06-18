@@ -20,7 +20,7 @@ Un peu plus bas, on trouve deux lignes de commande. Elles semblent illisibles à
 
 je ne pense pas trouver autre chose dans ce fichier je décide donc de refaire un follow mais sur le fichier udp la où la connexion a été perdue:
 
-<img src="/images/blog/5.webp" width="600" height="450" />   
+<img src="/images/blog/6.webp" width="600" height="450" />   
 Je trouve une adresse IP et exécute une commande curl sur celle-ci pour en tirer des informations. La réponse est du code HTML avec une redirection vers une page /login, ce qui suggère qu'une page web d'authentification s'y trouve.:<img src="/images/blog/6.webp" width="600" height="450" />  
 J’entre donc l’adresse dans mon navigateur et tombe sur cette page :  
 <img src="/images/blog/7.webp" width="600" height="450" />
